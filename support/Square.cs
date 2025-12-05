@@ -1,4 +1,4 @@
-﻿namespace SerializingShapes
+﻿namespace SerializingShapes.support
 {
     internal class Square: Shape
     {

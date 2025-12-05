@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using SerializingShapes.support;
+using System.Xml.Serialization;
 
 namespace SerializingShapes
 {

@@ -1,4 +1,6 @@
-﻿using static  SerializingShapes.Utility;  
+﻿using static SerializingShapes.Utility;  
+using SerializingShapes.support;
+
 using System.Xml.Serialization;
 
 namespace SerializingShapes;

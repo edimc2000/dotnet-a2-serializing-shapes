@@ -1,4 +1,4 @@
-﻿namespace SerializingShapes
+﻿namespace SerializingShapes.support
 
 {
     public class Rectangle: Shape
