@@ -1,4 +1,4 @@
-﻿using static SerializingShapes.Utility;  
+﻿using static SerializingShapes.Formatting;  
 using SerializingShapes.support;
 
 using System.Xml.Serialization;
@@ -9,6 +9,8 @@ internal class Program
 {
     private static void Main(string[] args)
     {
+        Clear();
+        Formatting.DisplayTitle("XML Serialization and Deserialization","all",80);
         // create a list of Shapes to serialize
         List<Shape> listOfShapes = new()
         {
@@ -22,7 +24,7 @@ internal class Program
         string dir = Combine(CurrentDirectory, "OutputFilesForShapesSerialization"); //folder
         CreateDirectory(dir);
         
-        SectionTitle("Serializing as XML");
+        //SectionTitle("Serializing as XML");
         XmlSerializer serializeShapes = new(listOfShapes.GetType());
         string xmlFileSerial = Combine(dir, "shapesSerial.xml"); //file
         using (FileStream stream = File.Create(xmlFileSerial))
@@ -43,8 +45,9 @@ internal class Program
                 string? colour = (string)type.GetProperty("Colour").GetValue(item);
                 double? area = (double)type.GetProperty("Area").GetValue(item);
 
-                WriteLine($"{name} is {colour} and has an area of {area:F4}");
+                WriteLine($"   {name} is {colour} and has an area of {area:F4}");
             }
+            WriteLine();
         }
     }
 }

@@ -3,7 +3,6 @@
 {
     public class Rectangle: Shape
     {
-
         public required string Colour { get; set; }
         public required double Height{ get; set; }
         public required double Width { get; set; }
