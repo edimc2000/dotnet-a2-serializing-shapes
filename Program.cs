@@ -12,7 +12,7 @@ internal class Program
     
     
     /// <summary>
-    /// Main entry point for Shape Serialization demo.
+    /// Main entry point for Shape Serialization.
     /// Usage: SerializingShapes [json|xml]
     /// Default: XML serialization
     /// </summary>
@@ -32,7 +32,8 @@ internal class Program
 
 
         DisplayTitle("Serialization and Deserialization", "all", 80);
-
+        
+        // Any argument that's not "json" defaults to XML
         if (args.Length > 0 && args[0].ToLower().Equals("json"))
         {
             // JSON - not part of the requirements 
@@ -42,13 +43,13 @@ internal class Program
             SectionTitle("Loading shapes from a JSON file");
             DeserializeJson(fullPathJsonFile);
         }
-        else
+        else // Default to XML (includes explicit "xml" or any other argument)
         {
             SectionTitle($"Serializing as XML... and saving the a file \"Output\\{XmlFileName}\"");
             SerializeAsXml(listOfShapes, fullPathXmlFile);
 
             SectionTitle("Loading shapes from XML");
-            DeserializeXml(listOfShapes, fullPathXmlFile);
+            DeserializeXml(fullPathXmlFile);
         }
 
         SectionTitle("Cleaning up files and folders ...");
