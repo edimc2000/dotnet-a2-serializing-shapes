@@ -347,4 +347,4 @@ FodyWeavers.xsd
 /*.Tests*
 /Properties
 /HtmlReport
-/OutputFilesForShapesSerialization
+/Output

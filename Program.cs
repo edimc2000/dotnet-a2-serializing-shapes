@@ -1,53 +1,57 @@
-﻿using static SerializingShapes.Formatting;  
+﻿using static SerializingShapes.Formatting;
+using static SerializingShapes.Utility;
 using SerializingShapes.support;
-
-using System.Xml.Serialization;
 
 namespace SerializingShapes;
 
 internal class Program
 {
+    private const string OutputDirectory = "Output";
+    private const string XmlFileName = "shapes.xml";
+    private const string JsonFileName = "shapes.json";
+    
+    
+    /// <summary>
+    /// Main entry point for Shape Serialization demo.
+    /// Usage: SerializingShapes [json|xml]
+    /// Default: XML serialization
+    /// </summary>
     private static void Main(string[] args)
     {
         Clear();
-        Formatting.DisplayTitle("XML Serialization and Deserialization","all",80);
-        // create a list of Shapes to serialize
-        List<Shape> listOfShapes = new()
-        {
-            new Circle { Colour = "Red", Radius = 2.5 },
-            new Rectangle { Colour = "Blue", Height = 20.0, Width = 10.0 },
-            new Circle { Colour = "Green", Radius = 8 },
-            new Circle { Colour = "Purple", Radius = 12.44 },
-            new Rectangle { Colour = "Blue", Height = 45.0, Width = 18.0 }
-        };
 
-        string dir = Combine(CurrentDirectory, "OutputFilesForShapesSerialization"); //folder
+        // setting up the output directory and files
+        string dir = Combine(CurrentDirectory, OutputDirectory);
         CreateDirectory(dir);
         
-        //SectionTitle("Serializing as XML");
-        XmlSerializer serializeShapes = new(listOfShapes.GetType());
-        string xmlFileSerial = Combine(dir, "shapesSerial.xml"); //file
-        using (FileStream stream = File.Create(xmlFileSerial))
+        string fullPathXmlFile = Combine(dir, XmlFileName); //file
+        string fullPathJsonFile = Combine(dir, JsonFileName); //file
+
+        // create a list of Shapes to serialize
+        List<Shape> listOfShapes = CreateListOfShapes();
+
+
+        DisplayTitle("Serialization and Deserialization", "all", 80);
+
+        if (args.Length > 0 && args[0].ToLower().Equals("json"))
         {
-            serializeShapes.Serialize(stream, listOfShapes);
+            // JSON - not part of the requirements 
+            SectionTitle($"Serializing as JSON... and saving the file \"Output\\{JsonFileName}\"");
+            SerializeAsJson(listOfShapes, fullPathJsonFile);
+
+            SectionTitle("Loading shapes from a JSON file");
+            DeserializeJson(fullPathJsonFile);
+        }
+        else
+        {
+            SectionTitle($"Serializing as XML... and saving the a file \"Output\\{XmlFileName}\"");
+            SerializeAsXml(listOfShapes, fullPathXmlFile);
+
+            SectionTitle("Loading shapes from XML");
+            DeserializeXml(listOfShapes, fullPathXmlFile);
         }
 
-        SectionTitle("Loading shapes from XML:");
-        using (FileStream xmlLoad = File.Open(xmlFileSerial, FileMode.Open))
-        {
-            List<Shape>? loadedShapesXml = serializeShapes.Deserialize(xmlLoad) as List<Shape>;
-
-
-            foreach (Shape item in loadedShapesXml)
-            {
-                Type? type = item.GetType();
-                string? name = type.Name;
-                string? colour = (string)type.GetProperty("Colour").GetValue(item);
-                double? area = (double)type.GetProperty("Area").GetValue(item);
-
-                WriteLine($"   {name} is {colour} and has an area of {area:F4}");
-            }
-            WriteLine();
-        }
+        SectionTitle("Cleaning up files and folders ...");
+        TeardownOnExit(dir);
     }
 }
