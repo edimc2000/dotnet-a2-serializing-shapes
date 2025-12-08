@@ -1,7 +1,7 @@
 ﻿namespace SerializingShapes;
 
 
-/// Copied from my other projects, adapted for this solution. 
+// Copied from my other projects, adapted for this solution. 
 /// <summary>Provides text formatting utilities for console display</summary>
 /// <remarks>
 /// <para>Author: Eddie C.</para>

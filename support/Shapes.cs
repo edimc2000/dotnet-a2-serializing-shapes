@@ -1,18 +1,18 @@
 ﻿using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
-namespace SerializingShapes.support
+namespace SerializingShapes.support;
+
+/// <summary>
+/// Abstract base class for all shapes.
+/// Contains common properties and polymorphic serialization support.
+/// </summary>
+[XmlInclude(typeof(Circle))]
+[XmlInclude(typeof(Rectangle))]
+[JsonDerivedType(typeof(Circle), "circle")]
+[JsonDerivedType(typeof(Rectangle), "rectangle")]
+public class Shape
 {
-    [XmlInclude(typeof(Circle))]
-    [XmlInclude(typeof(Rectangle))]
-
-
-    [JsonDerivedType(typeof(Circle), typeDiscriminator: "circle")]
-    [JsonDerivedType(typeof(Rectangle), typeDiscriminator: "rectangle")]
-
-    public class Shape
-    {
-
-        string? Colour { get; set; }
-    }
+    /// <summary>Gets or sets the colour of the shape.</summary>
+    private string? Colour { get; set; }
 }

@@ -86,6 +86,8 @@ internal class Utility
             Type type = item.GetType();
 
             // Handle different shape types with pattern matching
+            // this part was improved to make it more maintainable and readable compared to th code
+            // from the exercise
             switch (item)
             {
                 case Circle circle:
@@ -94,17 +96,13 @@ internal class Utility
                     break;
                 case Rectangle rectangle:
                     WriteLine(
-                        $"   {type.Name} is {rectangle.Colour} and has an area of {rectangle.Area:F4}");
+                        $"   {type.Name} is {rectangle.Colour} and has an area of " +
+                        $"{rectangle.Area:F4}");
                     break;
                 default:
                     WriteLine($"   Unknown shape type: {item.GetType().Name}");
                     break;
             }
-
-            // Below are from the documentation that failed extensibility and maintainability 
-            //string colour = (string)type.GetProperty("Colour").GetValue(item);
-            //double area = (double)type.GetProperty("Area").GetValue(item);
-            //WriteLine($"   {type.Name} is {colour} and has an area of {area:F4}");
         }
     }
 
