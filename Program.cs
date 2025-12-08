@@ -7,6 +7,7 @@ namespace SerializingShapes;
 /// <summary>
 /// Main program class for serializing shapes.
 /// </summary>
+/// <remarks>
 /// <para>Author: Eddie C.</para>
 /// <para>Version: 2.0</para>
 /// <para>Since: 2025-12-07</para>

@@ -5,11 +5,20 @@ using JsonShortcut = System.Text.Json.JsonSerializer;
 
 namespace SerializingShapes;
 
+/// <summary>
+/// Utility class for shape serialization and helper methods.
+/// </summary
+/// <remarks>
+/// <para>Author: Eddie C.</para>
+/// <para>Version: 2.0</para>
+/// <para>Since: 2025-12-07</para>
+/// </remarks>
 internal class Utility
 {
+    /// <summary>Creates a sample list of shapes for serialization.</summary>
+    /// <returns>A list containing Circle and Rectangle objects.</returns>
     internal static List<Shape> CreateListOfShapes()
     {
-        // create a list of Shapes for serialization
         return new List<Shape>
         {
             new Circle { Colour = "Red", Radius = 2.5 },
@@ -20,6 +29,9 @@ internal class Utility
         };
     }
 
+    /// <summary>Serializes a list of shapes to XML format. </summary>
+    /// <param name="listOfShapes">The list of shapes to serialize.</param>
+    /// <param name="path">The file path to save the XML to.</param>
     internal static void SerializeAsXml(List<Shape> listOfShapes, string path)
     {
         XmlSerializer serializeShapes = new(listOfShapes.GetType());
@@ -27,6 +39,8 @@ internal class Utility
         serializeShapes.Serialize(stream, listOfShapes);
     }
 
+    /// <summary>Deserializes shapes from an XML file. </summary>
+    /// <param name="path">The file path to load XML from.</param>
     internal static void DeserializeXml(string path)
     {
         XmlSerializer serializeShapes = new(typeof(List<Shape>));
@@ -36,6 +50,7 @@ internal class Utility
         DisplayRequiredInfo(loadedShapesXml!);
     }
 
+    /// <summary>JSON serializer configuration options.</summary>
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         IncludeFields = true,
@@ -44,13 +59,17 @@ internal class Utility
         IgnoreReadOnlyProperties = true
     };
 
+    /// <summary>Serializes a list of shapes to JSON format.</summary>
+    /// <param name="listOfShapes">The list of shapes to serialize.</param>
+    /// <param name="path">The file path to save the JSON to.</param>
     internal static void SerializeAsJson(List<Shape> listOfShapes, string path)
     {
         using Stream fileStream = File.Create(path);
         JsonShortcut.Serialize(fileStream, listOfShapes, JsonOptions);
     }
 
-
+    /// <summary>Deserializes shapes from a JSON file.</summary>
+    /// <param name="path">The file path to load JSON from.</param>
     internal static void DeserializeJson(string path)
     {
         string jsonString = File.ReadAllText(path);
@@ -58,7 +77,8 @@ internal class Utility
         DisplayRequiredInfo(loadedShapesJson!);
     }
 
-
+    /// <summary>Displays information about each shape in the list.</summary>
+    /// <param name="list">The list of shapes to display.</param>
     internal static void DisplayRequiredInfo(List<Shape> list)
     {
         foreach (Shape item in list!)
@@ -69,10 +89,12 @@ internal class Utility
             switch (item)
             {
                 case Circle circle:
-                    WriteLine($"   {type.Name} is {circle.Colour} and has an area of {circle.Area:F4}");
+                    WriteLine(
+                        $"   {type.Name} is {circle.Colour} and has an area of {circle.Area:F4}");
                     break;
                 case Rectangle rectangle:
-                    WriteLine($"   {type.Name} is {rectangle.Colour} and has an area of {rectangle.Area:F4}");
+                    WriteLine(
+                        $"   {type.Name} is {rectangle.Colour} and has an area of {rectangle.Area:F4}");
                     break;
                 default:
                     WriteLine($"   Unknown shape type: {item.GetType().Name}");
@@ -86,13 +108,14 @@ internal class Utility
         }
     }
 
+    /// <summary>Cleans up temporary files and directories.</summary>
+    /// <param name="directory">The directory to clean up.</param>
     internal static void TeardownOnExit(string directory)
     {
         try
         {
             if (Directory.Exists(directory))
             {
-                // Optionally ask for confirmation
                 Write("   Clean up temporary files? (Y for Yes / Any key for No) : ");
                 if (ReadKey().Key == ConsoleKey.Y)
                 {
